@@ -1,0 +1,31 @@
+name: Pre-pr actions terraform plan
+
+on:
+  push:
+    branches-ignore:
+      - main
+jobs:
+  terraform-plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Check branch naming convention
+        run: |
+          if [[ ! "${GITHUB_REF#refs/heads/}" =~ ^(feature|bugfix)/.+ ]]; then
+            echo "Branch must start with 'feature/' or 'bugfix/'"
+            exit 1
+          fi
+          echo "Branch name is valid!"
+
+      - name: Set up Terraform 
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: ./terraform
+      
+      - name: Terraform Plan
+        run: terraform plan
+        working-directory: ./terraform
