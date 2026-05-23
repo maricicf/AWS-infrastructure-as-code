@@ -1,6 +1,6 @@
 name: Pre-pr actions terraform plan
 
-on
+on:
   push:
     branches-ignore:
       - main
