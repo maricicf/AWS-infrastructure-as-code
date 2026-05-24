@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-  region                      = "us"
+  region                      = "eu-central-1"
   access_key                  = "test"
   secret_key                  = "test"
   skip_credentials_validation = true
@@ -18,6 +18,5 @@ provider "aws" {
   endpoints {
     ec2 = "http://localhost:4566"
     rds = "http://localhost:4566"
-    vpc = "http://localhost:4566"
   }
 }
