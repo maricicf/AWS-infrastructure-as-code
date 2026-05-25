@@ -17,24 +17,37 @@ def check_cost_center(terraform_dir):
         with open(filepath, 'r') as f:
             content = f.read()
         
-        # svi blokovi
-        resource_pattern = re.compile(
-            r'resource\s+"([^"]+)"\s+"([^"]+)"\s+\{([^}]*(?:\{[^}]*\}[^}]*)*)\}',
-            re.DOTALL
-        )
-        
-        resources = resource_pattern.findall(content)
-        
-        if not resources:
-            print(f"  No resources found in {tf_file}")
-            continue
-            
-        for resource_type, resource_name, resource_body in resources:
-            if 'CostCenter' in resource_body:
-                print(f"{resource_type}.{resource_name} has CostCenter tag")
+        lines = content.split('\n')
+        i=0
+        found_resource = False
+
+        while i < len(lines):
+            line = lines[i].strip()
+            match = re.match(r'\s*resource\s+"([^"]+)"\s+"([^"]+)"', lines[i])
+            if match:
+                found_resources = True
+                resource_type = match.group(1)
+                resource_name = match.group(2)
+
+                #ceo blok sa broj zagrada
+                 block_content = ""
+                depth = 0
+                while i < len(lines):
+                    block_content += lines[i] + '\n'
+                    depth += lines[i].count('{') - lines[i].count('}')
+                    i += 1
+                    if depth == 0 and block_content.strip():
+                        break
+                
+                if 'CostCenter' in block_content:
+                    print(f"{resource_type}.{resource_name} has CostCenter tag")
+                else:
+                    print(f"{resource_type}.{resource_name} is MISSING CostCenter tag!")
+                    failed = True
             else:
-                print(f"{resource_type}.{resource_name} is MISSING CostCenter tag!")
-                failed = True
+                i += 1
+        if not found_resources:
+            print(f"  No resources found in {tf_file}")
     
     return failed
 
