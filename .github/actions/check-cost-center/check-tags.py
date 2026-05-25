@@ -41,9 +41,9 @@ def check_cost_center(terraform_dir):
 
 terraform_dir = sys.argv[1] if len(sys.argv) > 1 else "./terraform"
 
-print("/\" * 50)
+print("=" * 50)
 print("CostCenter Tag Compliance Check")
-print("\/" * 50)
+print("=" * 50)
 
 failed = check_cost_center(terraform_dir)
 

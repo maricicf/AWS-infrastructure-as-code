@@ -5,12 +5,12 @@ REPO="maricicf/AWS-infrastructure-as-code"
 OUTPUT_FILE="failed_runs_report.txt"
 HOURS=24
 
-# Izračunaj datum prije 24 sata
+# datum 24h pre
 SINCE=$(date -d "$HOURS hours ago" --utc +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u -v-${HOURS}H +%Y-%m-%dT%H:%M:%SZ)
 
 echo "Fetching failed workflow runs from last $HOURS hours..."
 
-# Dohvati failed runove
+# failed runs
 RUNS=$(gh run list \
   --repo "$REPO" \
   --status failure \
@@ -18,7 +18,7 @@ RUNS=$(gh run list \
   --json "databaseId,name,headBranch,createdAt" \
   --jq ".[] | select(.createdAt > \"$SINCE\")")
 
-# Kreiraj report
+# report
 echo "=====================================" > "$OUTPUT_FILE"
 echo "Failed GitHub Actions Runs Report" >> "$OUTPUT_FILE"
 echo "Generated: $(date)" >> "$OUTPUT_FILE"
