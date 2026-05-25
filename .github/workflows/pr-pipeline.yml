@@ -17,11 +17,24 @@ jobs:
             exit 1
           fi
           echo "Branch name is valid!"
+          
+  check-cost-center:
+    name: Check CostCenter Tag
+    runs-on: ubuntu-latest
+    needs: check-branch-name
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check CostCenter tag on all resources
+        uses: ./.github/actions/check-cost-center
+        with:
+          terraform_dir: ./terraform
 
   terraform-init:
     name: Terraform Init
     runs-on: ubuntu-latest
-    needs: check-branch-name
+    needs: check-cost-center
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

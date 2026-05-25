@@ -1,0 +1,16 @@
+name: Check CostCenter Tag
+description: Checks that all AWS resources have CostCenter tag defined
+
+inputs:
+  terraform_dir:
+    description: Directory containing Terraform files
+    required: false
+    default: ./terraform
+
+runs:
+  using: composite
+  steps:
+    - name: Check CostCenter tag on all resources
+      shell: bash
+      run: |
+        python ${{ github.action_path }}/check-tags.py ${{ inputs.terraform_dir }}
