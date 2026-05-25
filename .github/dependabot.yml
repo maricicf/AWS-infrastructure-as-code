@@ -1,0 +1,13 @@
+version: 2
+updates:
+  # Provjera GitHub Actions verzija
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Provjera Terraform provider verzija
+  - package-ecosystem: "terraform"
+    directory: "/terraform"
+    schedule:
+      interval: "weekly"
