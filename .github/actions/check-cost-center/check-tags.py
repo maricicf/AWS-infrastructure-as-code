@@ -38,7 +38,10 @@ def check_cost_center(terraform_dir):
                     i += 1
                     if depth == 0 and block_content.strip():
                         break
-                
+                if resource_type in ['aws_route_table_association']:
+                    print(f"{resource_type}.{resource_name} - Skipping CostCenter check for this resource type")
+                    continue
+
                 if 'CostCenter' in block_content:
                     print(f"{resource_type}.{resource_name} has CostCenter tag")
                 else:
