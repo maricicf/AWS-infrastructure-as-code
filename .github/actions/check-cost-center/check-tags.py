@@ -30,7 +30,7 @@ def check_cost_center(terraform_dir):
                 resource_name = match.group(2)
 
                 #ceo blok sa broj zagrada
-                 block_content = ""
+                block_content = ""
                 depth = 0
                 while i < len(lines):
                     block_content += lines[i] + '\n'
