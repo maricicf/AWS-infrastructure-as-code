@@ -10,18 +10,18 @@ jobs:
     name: Check Branch Naming Convention
     runs-on: ubuntu-latest
     steps:
-      - name: Validate branch name
+      - name: Check branch naming convention
         run: |
-          if[["${GITHUB_REF#refs/heads/}" == dependbot/* ]]; then
+          BRANCH=${GITHUB_REF#refs/heads/}
+          if [[ "$BRANCH" == dependabot/* ]]; then
             echo "Dependabot branch - skipping branch name check"
             exit 0
           fi
-          if [[ ! "$GITHUB_HEAD_REF" =~ ^(feature|bugfix)/.+ ]]; then
+          if [[ ! "$BRANCH" =~ ^(feature|bugfix)/.+ ]]; then
             echo "Branch must start with 'feature/' or 'bugfix/'"
             exit 1
           fi
           echo "Branch name is valid!"
-
   check-cost-center:
     name: Check CostCenter Tag
     runs-on: ubuntu-latest

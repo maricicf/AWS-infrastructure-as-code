@@ -13,11 +13,12 @@ jobs:
 
       - name: Check branch naming convention
         run: |
-          if[["${GITHUB_REF#refs/heads/}" == dependbot/* ]]; then
+          BRANCH=${GITHUB_REF#refs/heads/}
+          if [[ "$BRANCH" == dependabot/* ]]; then
             echo "Dependabot branch - skipping branch name check"
             exit 0
           fi
-          if [[ ! "${GITHUB_REF#refs/heads/}" =~ ^(feature|bugfix)/.+ ]]; then
+          if [[ ! "$BRANCH" =~ ^(feature|bugfix)/.+ ]]; then
             echo "Branch must start with 'feature/' or 'bugfix/'"
             exit 1
           fi
