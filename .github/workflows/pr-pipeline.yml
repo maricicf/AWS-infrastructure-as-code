@@ -10,9 +10,9 @@ jobs:
     name: Check Branch Naming Convention
     runs-on: ubuntu-latest
     steps:
-      - name: Check branch naming convention
+      - name: Validate branch name
         run: |
-          BRANCH=${GITHUB_REF#refs/heads/}
+          BRANCH=${GITHUB_HEAD_REF}
           if [[ "$BRANCH" == dependabot/* ]]; then
             echo "Dependabot branch - skipping branch name check"
             exit 0
